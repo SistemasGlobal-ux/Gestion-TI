@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "application_sop (Windows Desktop)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows"
+        },
+        {
+            "name": "application_sop (Android Emulator)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "CQBIHEZLP7E6S4DM"
+        },
+        {
+            "name": "application_sop",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "application_sop (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "application_sop (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run Desktop + Android",
+            "configurations": [
+                "application_sop (Windows Desktop)",
+                "application_sop (Android Emulator)"
+            ]
+        }
+    ]
+}
