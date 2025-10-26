@@ -1,5 +1,4 @@
-import 'package:application_sop/maps/general.dart';
-import 'package:application_sop/maps/general_equipos.dart';
+import 'package:application_sop/maps/maps.dart';
 
 class CatalogosCombinados {
   final Catalogos catalogos;

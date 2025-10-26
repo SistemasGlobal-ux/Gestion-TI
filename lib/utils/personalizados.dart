@@ -2,10 +2,9 @@
 
 import 'package:application_sop/busqueda_delegates/custom_search_equipo.dart';
 import 'package:application_sop/cargas/generar_archivos.dart';
-import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/usuarios.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/utils/custom_listas.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -598,6 +597,12 @@ rangoDeFechas(DateTimeRange dateRange){
 
 
  void showInfoUser(BuildContext context, Usuario user) {
+
+  String text = user.equipos!.length > 1 || user.equipos!.isEmpty ? '${user.equipos!.length} EQUIPOS ASIGNADOS' : '${user.equipos!.length} EQUIPO ASIGNADO';
+  final List<Equipo> equiposStock = Provider.of<EquiposListProvider>(context, listen: false).estock;
+  Equipo? equipo;
+  DateTime hoy = DateTime.now();
+
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -616,18 +621,16 @@ rangoDeFechas(DateTimeRange dateRange){
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text("${user.nombres} ${user.apellidos}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                Row(mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(user.sede,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                  ],
                 ),
-                Text(user.sede),
-                Text(user.correo!),
-                Text(user.psw!),
+                CopiText(label: "Usuario", value: "${user.nombres} ${user.apellidos}", showIconAndAnimation: true),
+                CopiText(label: "Correo", value: user.correo!, showIconAndAnimation: true),
+                CopiText(label: "Contraseña", value: user.psw!, showIconAndAnimation: true),
                 const SizedBox(height: 15),
-                Text("Equipos"),
+                Text(text),
                 SizedBox(
                   height: 250, // limita el alto del diálogo
                   child: ListView.builder(
@@ -642,33 +645,33 @@ rangoDeFechas(DateTimeRange dateRange){
                         ),
                         child: ListTile(
                           leading: const Icon(Icons.computer, color: Colors.blue),
-                          title: Text(
-                            "${equipo.marca} ${equipo.modelo}",
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
+                          title: 
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                          IconButton(onPressed: (){}, icon: Icon(Icons.delete), color: Colors. redAccent)]),
                           subtitle: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                            'Serie: ${equipo.numeroSerie}',
-                            style: const TextStyle(fontSize: 13),
-                          ),
+                            CopiText(label: "Equipo", value: "${equipo.marca} ${equipo.modelo}", showIconAndAnimation: true),
+                            CopiText(label: "NS", value: "${equipo.numeroSerie}", showIconAndAnimation: true),
+                            CopiText(label: "NAS", value: equipo.nas!),
                           Text(
                             'Disco P: ${equipo.discoPrincipal}',
-                            style: const TextStyle(fontSize: 13),
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)
                           ),
                           Text(
                             'Disco S: ${equipo.discoSecundario}',
-                            style: const TextStyle(fontSize: 13),
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                           Text(
                             'RAM: ${equipo.ram}',
-                            style: const TextStyle(fontSize: 13),
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                           Text(
-                            'Procesador: ${equipo.procesador}',
-                            style: const TextStyle(fontSize: 13),
+                            'Procesador: ${equipo.procesador} ${equipo.generacion}',
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                             ],
                           )
@@ -678,13 +681,111 @@ rangoDeFechas(DateTimeRange dateRange){
                   ),
                 ),
                 const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                    onPressed: () async {
+                      equipo = await showSearch(
+                      context: context,delegate: BusquedaEquipoDelegate(equiposStock));
+                      if(equipo!.numeroSerie!.isNotEmpty){
+                       final nass = user.equipos!.isNotEmpty ? user.equipos![0].nas :  "pendiente";
+                       final res = await addEquipo(context, text, user, nass, myDate(hoy), equipo!.numeroSerie!);
+                       if (res == true) {
+                       Navigator.pop(context);
+                       }
+                      }else{
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text('Asignar equipo'),
+                  ),
+                TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text('Salir'),
                   ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+ void showInfoEquipo(BuildContext context, Equipo equipo) {
+  
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierColor: Colors.black45,
+    builder: (_) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Colors.white,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.5,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.computer, color: myColor(equipo.estado!)),
+                    Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                    IconButton(onPressed: (){}, icon: Icon(Icons.delete), color: Colors. redAccent),
+                  ],
                 ),
+                SizedBox(
+                  height: 250, // limita el alto del diálogo
+                  child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: 
+                        ListTile(
+                          title: CopiText(label: "Equipo", value: "${equipo.marca} ${equipo.modelo}", showIconAndAnimation: true),
+                          subtitle: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            CopiText(label: "NS", value: "${equipo.numeroSerie}", showIconAndAnimation: true),
+                            CopiText(label: "Procesador", value: "${equipo.procesador} ${equipo.generacion}"),
+                            CopiText(label: "Disco princial", value: equipo.discoPrincipal!),
+                            CopiText(label: "Disco secundario", value: equipo.discoSecundario!),
+                            CopiText(label: "Memoria RAM", value: equipo.ram!),
+                            CopiText(label: "Usuario NAS", value: equipo.nas!),
+                            CopiText(label: "Estado", value: equipo.estado!),
+                            equipo.estado! == "ENTREGADO" ?
+                            CopiText(label: "Fecha de entrega", value: equipo.fechaEntrega!) : Container(),
+                            CopiText(label: "Sede", value: equipo.sede!),
+                          
+                            ],
+                          )
+                        ),
+                      ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                equipo.estado == "STOCK" 
+                ? TextButton(onPressed: () async {}, child: const Text('Asignar'))
+                :TextButton(onPressed: () async {}, child: const Text('Reasignar')),
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Salir'),
+                  ),
+                  ],
+                )
               ],
             ),
           ),

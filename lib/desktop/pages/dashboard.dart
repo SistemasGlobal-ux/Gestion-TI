@@ -1,12 +1,7 @@
 import 'package:application_sop/cargas/generar_archivos.dart';
-import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/tech_suppor.dart';
-import 'package:application_sop/maps/usuarios.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/providers/tech_support_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
-import 'package:application_sop/utils/colors_area.dart';
-import 'package:application_sop/utils/personalizados.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,8 +42,6 @@ class _DashboardPageState extends State<DashboardPage> {
     : otros;
 
     TechSuppor tecnico = Provider.of<TechSupporListProvider>(context, listen: false).tecnico;
-
-
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F8),

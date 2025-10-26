@@ -1,15 +1,9 @@
 
-
-
-
 import 'package:application_sop/desktop/pages/dashboard.dart';
 import 'package:application_sop/desktop/pages/equipos.dart';
 import 'package:application_sop/desktop/pages/usuarios.dart';
-import 'package:application_sop/maps/tech_suppor.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/providers/general_list.dart';
-import 'package:application_sop/providers/tech_support_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

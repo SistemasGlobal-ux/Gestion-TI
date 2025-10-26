@@ -1,17 +1,10 @@
 
 import 'package:application_sop/pages/pre_login.dart';
-import 'package:application_sop/providers/365_list.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/providers/general_list.dart';
-import 'package:application_sop/providers/tech_support_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
-import 'package:application_sop/services/logger.dart';
-import 'package:application_sop/services/share_preferences.dart';
-import 'package:application_sop/services/socket_service.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

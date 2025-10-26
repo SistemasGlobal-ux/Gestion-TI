@@ -1,20 +1,12 @@
 
-
+// ignore_for_file: use_build_context_synchronously, camel_case_types
 
 import 'package:application_sop/busqueda_delegates/custom_search_equipo.dart';
 import 'package:application_sop/cargas/generar_archivos.dart';
-import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/general.dart';
-import 'package:application_sop/maps/usuarios.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/providers/general_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
-import 'package:application_sop/services/logger.dart';
-import 'package:application_sop/utils/custom_imput.dart';
-import 'package:application_sop/utils/dropdow.dart';
-import 'package:application_sop/utils/generar_passw.dart';
-import 'package:application_sop/utils/generar_user_nas.dart';
-import 'package:application_sop/utils/personalizados.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
+import 'package:application_sop/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,12 +25,18 @@ class _Add_usuarioState extends State<Add_usuario> {
   Equipo? equipo;
 
   final TextEditingController namelCtrl = TextEditingController();
+  final FocusNode nameNode = FocusNode(); 
   final TextEditingController lastNamelCtrl = TextEditingController();
-  final TextEditingController correoController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final FocusNode lastnameNode = FocusNode();
   final TextEditingController phoneCtrl = TextEditingController();
+  final FocusNode phoneNode = FocusNode();
+  final TextEditingController correoController = TextEditingController();
+  final FocusNode correoNode = FocusNode();
+  final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController equipoCtrl = TextEditingController();
   final TextEditingController nasCtrl = TextEditingController();
+  DateTime? fechaRegistro;
 
   final List<String> dominios = [
     '@administracionglobal.mx',
@@ -55,30 +53,31 @@ class _Add_usuarioState extends State<Add_usuario> {
       appBar: AppBar(title: Text("Agregar usuario"), centerTitle: true, backgroundColor: const Color.fromARGB(255, 92, 141, 163), toolbarHeight: 40),
       body: Row(
         children:[
+              //izquierda
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                flex: 2,
+                child: Container(
+                  color: const Color.fromARGB(255, 92, 141, 163),
+                  margin: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(5.0),    
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            //izquierda
-                            Expanded(
-                              flex: 2,
-                              child: Column( 
-                                children: [
-                              _customcard([
-                               Row(children: [Text("Datos del colaborador")]),
-                               CustomImput(placeholder: "Nombres(s)",textControler: namelCtrl),
-                               CustomImput(placeholder: "Apellidos", textControler: lastNamelCtrl),
-                               CustomImput(placeholder: "Contacto",textControler: phoneCtrl),
-                              ]),
-                              _customcard([
-                                Row(children: [Text("asignacion de correo")]),
-                                const SizedBox(height: 15),
-                                CustomImput(placeholder: "Correo", textControler: correoController),
-                                DropdownButtonHideUnderline(
+                      Row(
+                        children: [
+                          Text("Datos del colaborador"),
+                        ],
+                      ),
+                      CustomImput(placeholder: "Nombres(s)",textControler: namelCtrl ,node: nameNode, nexNode: lastnameNode,),
+                      CustomImput(placeholder: "Apellidos", textControler: lastNamelCtrl, node: lastnameNode, nexNode: phoneNode,),
+                      CustomImput(placeholder: "Contacto",textControler: phoneCtrl, node: phoneNode, nexNode: correoNode,),
+                      Row(
+                        children: [
+                          Text("Asignacion de correo"),
+                        ],
+                      ),
+                      CustomImput(placeholder: "Correo", textControler: correoController, node: correoNode,),
+                      DropdownButtonHideUnderline(
                                 child: Padding(
                                    padding: const EdgeInsets.only(left: 15, right: 15),
                                    child: DropdownButton<String>(
@@ -102,135 +101,84 @@ class _Add_usuarioState extends State<Add_usuario> {
                                        correoController.text = "$texto$valor";
                                         });}}),
                           )),
-                                SizedBox(height: 20),
-                                CustomImput(placeholder: 'contraseña' ,textControler:  passwordController),
-                                ]),
-                              _customcard([
-                                Row(children: [Text("Asignacion de equipo")]),
-                              CustomImput(placeholder:  "Equipo", textControler:  equipoCtrl),
-                              CustomImput(placeholder:  "Usuario NAS", textControler:  nasCtrl),
-                              ]),
-                                      ],
-                                    ),
-                            ),
-                             //derecha
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                               children: [
-                                 _customcard([
-                                  DropdownCatalogo(label: 'Operativa',
-                                  items: catalogos.operativas,
-                                  selectedId: idOperativa,
-                                  onChanged: (value) => setState(() => idOperativa = value),
-                                  ),
-                                  ]),
-                                 _customcard([DropdownCatalogo(
+                          CustomImput(placeholder: 'contraseña' ,textControler:  passwordController),
+                          Row(children: [
+                            Text("Asignacion de equipo"),
+                          ]),
+                          CustomImput(placeholder:  "Equipo", textControler:  equipoCtrl),
+                          CustomImput(placeholder:  "Usuario NAS", textControler:  nasCtrl),
+                          ],
+                        )
+                      )
+                ),
+                //Derecha
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                  color: const Color.fromARGB(255, 92, 141, 163),
+                  margin: EdgeInsets.only(top: 16.0, bottom: 16.0,left: 0.0, right: 16),
+                  padding: EdgeInsets.all(11.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                    DropdownCatalogo(label: 'Operativa',
+                      items: catalogos.operativas,
+                      selectedId: idOperativa,
+                      onChanged: (value) => setState(() => idOperativa = value),
+                      ),
+                    DropdownCatalogo(
                     label: 'Sede',
                     items: catalogos.sedes,
                     selectedId: idSede,
                     onChanged: (value) => setState(() => idSede = value),
-                  )]),
-                                 _customcard([
-                  DropdownCatalogo(
+                    ),
+                    DropdownCatalogo(
                     label: 'Área',
                     items: catalogos.areas,
                     selectedId: idArea,
                     onChanged: (value) => setState(() => idArea = value),
-                  ),
-                                 ]),
-                                 _customcard([
-                  DropdownCatalogo(
+                    ),                             
+                    DropdownCatalogo(
                     label: 'Puesto',
                     items: catalogos.puestos,
                     selectedId: idPuesto,
                     onChanged: (value) => setState(() => idPuesto = value),
-                  ),
-                                 ]),
-                                 _customcard([
-                                  Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [Text("Fecha: $fecha")])]),
-                                 _customcard([
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: myElevatedB("Generar contraseña @", (){
-                                        final area = catalogos.areas.firstWhere((area) => int.parse(area.id) == idArea).nombre;
-                                        final nuevaPassword = generarPasswordDesdeArea(area);
-                                        setState(() => passwordController.text = nuevaPassword);}),
-                                      ),
-                                    ],
-                                  )
-                                 ]),
-                                 _customcard([
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: myElevatedB("Asignar equipo", () async {
-                                    equipo = await showSearch(
-                                      // ignore: use_build_context_synchronously
-                                      context: context,
-                                      delegate: BusquedaEquipoDelegate(equiposStock));
-                                      equipo!.numeroSerie!.isNotEmpty? {
-                                      setState(() {equipoCtrl.text = equipo!.numeroSerie!;}),
-                                       } : {null};}
-                                       )
-                                      ),
-                                    ],
-                                  )
-                                 ]),
-                                 _customcard([
-                                   Row(
-                                    children: [
-                                      Expanded(
-                                        child: myElevatedB("Generar usuario(NAS)", () async {
-                                   final area = catalogos.areas.firstWhere((area) => int.parse(area.id) == idArea).nombre;
-                                   final nombreNAS = generarUsuarioNas(namelCtrl.text,lastNamelCtrl.text,catalogos,area, usuariosActivos );
-                                   setState(() {nasCtrl.text = nombreNAS;});})
-                                      ),
-                                    ],
-                                  )
-                                 ]),
-                                 _customcard([
-                                   Row(
-                                    children: [
-                                      Expanded(
-                                        child: myElevatedB("Registrar usuario", () async {await  buildUser(catalogos);})
-                                      ),
-                                    ],
-                                  )
-                                 ]),
-                                ],
-                               ),
-                              )
-                          ],
-                        )
-                      )
-                    ],
-                  ),
-                )
-                )
+                    ),
+                    Container(margin: EdgeInsets.only(top: 10), color:Colors.blue[50], child: 
+                  fechaField("Fecha de alta", fechaRegistro, (fecha) => setState(() => fechaRegistro = fecha), context)),
+                    customcard(
+                      myElevatedB("Generar contraseña @", (){
+                      final area = catalogos.areas.firstWhere((area) => int.parse(area.id) == idArea).nombre;
+                      final nuevaPassword = generarPasswordDesdeArea(area);
+                      setState(() => passwordController.text = nuevaPassword);}),
+                    ),
+                    customcard(
+                       myElevatedB("Asignar equipo", () async {
+                      equipo = await showSearch(
+                        context: context,
+                        delegate: BusquedaEquipoDelegate(equiposStock));
+                        equipo!.numeroSerie!.isNotEmpty? {
+                        setState(() {equipoCtrl.text = equipo!.numeroSerie!;})} : {null};}),
+                    ),
+                      customcard(
+                        myElevatedB("Generar usuario(NAS)", () async {
+                        final area = catalogos.areas.firstWhere((area) => int.parse(area.id) == idArea).nombre;
+                        final nombreNAS = generarUsuarioNas(namelCtrl.text,lastNamelCtrl.text,catalogos,area, usuariosActivos );
+                        setState(() {nasCtrl.text = nombreNAS;});}),
+                      ),
+                      customcard(myElevatedB("Registrar usuario", () async {await  buildUser(catalogos);}))
+                    ])))
         ]
       )
     );
   }
 
-  _customcard(List<Widget> column){
-    return Expanded(
-      child: Card(
-        color: const Color.fromARGB(255, 92, 141, 163),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-          elevation: 2,
-          child: Padding(
-            padding: EdgeInsets.all(11.0),
-            child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: column),
-               ),
-           )
-        );
- }
+   customcard(Widget widget){
+    return SizedBox(
+      width: double.infinity,
+      child: widget,
+    );}
+   
    buildUser(catalogos) async {
     final ok = await registrarUser(context,"Registrando Usuario",idOperativa.toString(),idSede.toString(),fecha,idArea.toString(),idPuesto.toString(),namelCtrl.text,lastNamelCtrl.text,phoneCtrl.text,"~",equipoCtrl.text,"ACTIVO","~",nasCtrl.text,correoController.text,passwordController.text,"~","",[equipo!], catalogos);
     

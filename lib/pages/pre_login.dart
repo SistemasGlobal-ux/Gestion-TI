@@ -15,25 +15,17 @@ class PreLogin extends StatelessWidget {
         body: FutureBuilder(
             future: checkLoginState(context),
             builder: (context, snapshot) {
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 250),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text("Cargando...",
-                              style:
-                                  TextStyle(fontSize: 27, color: Colors.blue)),
-                        ]),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text('Estamos validando tus datos',
-                              style: TextStyle(fontSize: 12)),
-                        ]),
-                    const SizedBox(height: 270),
-                  ]);
+              return Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Cargando...",
+                                style: TextStyle(fontSize: 27, color: Colors.blue)),
+                      Text('Estamos validando tus datos',
+                                style: TextStyle(fontSize: 12)),
+                    ]),
+              );
             }));
   }
 

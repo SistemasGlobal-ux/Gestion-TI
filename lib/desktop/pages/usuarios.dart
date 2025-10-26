@@ -2,14 +2,10 @@
 
 import 'package:application_sop/cargas/generar_archivos.dart';
 import 'package:application_sop/desktop/pages/add_usuario.dart';
-import 'package:application_sop/maps/tech_suppor.dart';
-import 'package:application_sop/maps/usuarios.dart';
-import 'package:application_sop/modelos%20pdfs/mant_correctivo.dart';
-import 'package:application_sop/modelos%20pdfs/mant_preventivo.dart';
-import 'package:application_sop/providers/tech_support_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
-import 'package:application_sop/utils/colors_area.dart';
-import 'package:application_sop/utils/personalizados.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/modelos%20pdfs/modelos_pdf.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +37,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
              u.apellidos.toLowerCase().contains(query) ||
              u.area.toLowerCase().contains(query) ||
              u.puesto.toLowerCase().contains(query) ||
-             u.correo!.toLowerCase().contains(query);
+             u.correo!.toLowerCase().contains(query) || u.snEquipo.toLowerCase().contains(query);
     }).toList();
 
     TechSuppor tecnico = Provider.of<TechSupporListProvider>(context, listen: false).tecnico;
@@ -155,11 +151,6 @@ rowIcons(rol, user, context){
   Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      iconButtonSingle("Equipos", Icons.desktop_mac, Colors.greenAccent, (){
-        if(user.equipos!.length >= 1){
-          showEquipos(context, user);
-        }
-      }),
       iconButtonSingle("PDF Equipo", Icons.picture_as_pdf, Colors.lightBlue, (){
         if(user.equipos!.length > 1){
           showListEquipos(context, user.equipos,(i){

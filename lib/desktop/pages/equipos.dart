@@ -1,13 +1,9 @@
 
 import 'package:application_sop/cargas/generar_archivos.dart';
-import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/tech_suppor.dart';
-import 'package:application_sop/maps/usuarios.dart';
-import 'package:application_sop/providers/equipos_list.dart';
-import 'package:application_sop/providers/tech_support_list.dart';
-import 'package:application_sop/providers/usuarios_list.dart';
-import 'package:application_sop/utils/colors_area.dart';
-import 'package:application_sop/utils/personalizados.dart';
+import 'package:application_sop/desktop/pages/add_equipo.dart';
+import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,9 +85,12 @@ class EquipiosPageState extends State<EquiposPage> {
                 ),
               ),
               const SizedBox(width: 16),
+              tecnico.rol == "admin" || tecnico.rol == "tecnico" ? 
               Expanded(
                 flex: 1,
-                child: iconButtonCustom("Nuevo equipo",  Icons.laptop, (){}))
+                child: iconButtonCustom("Nuevo Equipo",  Icons.desktop_mac, (){
+                  Navigator.push(context,MaterialPageRoute(builder: (_) => Add_equipos()));
+                })) : Container()
             ],
           ),
           const SizedBox(height: 10),
@@ -112,7 +111,7 @@ class EquipiosPageState extends State<EquiposPage> {
                         elevation: 3,
                         margin: const EdgeInsets.symmetric(vertical: 9),
                         child: ListTile(
-                          onTap: (){ print(equipo); },
+                          onTap: (){showInfoEquipo(context, equipo);},
                           leading: CircleAvatar(backgroundColor: myColor(equipo.estado!), child: Icon(Icons.computer, color: Colors.white,size: 30)),
                           title: Text("${equipo.marca} - ${equipo.modelo}",style: const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: Column(
