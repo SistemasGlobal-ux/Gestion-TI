@@ -3,12 +3,11 @@ import 'package:application_sop/maps/equipos.dart';
 import 'package:application_sop/maps/soportes.dart';
 import 'package:application_sop/maps/usuarios.dart';
 import 'package:application_sop/services/conexiones.dart';
-import 'package:application_sop/services/fetch_data.dart';
 
 final conexion = Conexion();
 
 Future addUser(Usuario usuario, String nas, context) async {
-  final catalogos = await fetchCatalogos();
+  //final catalogos = await fetchCatalogos();
   late String res;
   final body =  {};
   final mail = await conexion.checkMail(body);
@@ -45,15 +44,15 @@ Future addUser(Usuario usuario, String nas, context) async {
   }
 
   if (res == "Proceso completado con exito") {
-    final sede = searchDato(catalogos.sedes, int.parse(usuario.sede));
-    final area = searchDato(catalogos.areas, int.parse(usuario.area));
-    final puesto = searchDato(catalogos.puestos, int.parse(usuario.puesto));
+    //final sede; //= searchDato(catalogos.sedes, int.parse(usuario.sede));
+    //final area; //= searchDato(catalogos.areas, int.parse(usuario.area));
+    //final puesto; //= searchDato(catalogos.puestos, int.parse(usuario.puesto));
     final finaluser = Usuario(
       operativa: "",
-      sede: sede,
+      sede: "sede",
       ingreso: usuario.ingreso,
-      area: area,
-      puesto: puesto,
+      area: "area",
+      puesto: "puesto",
       nombres: usuario.nombres,
       apellidos: usuario.apellidos,
       contacto: usuario.contacto,

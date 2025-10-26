@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class CatalogosListProvider extends ChangeNotifier{
 
-   Catalogos catalogos = Catalogos.empty();
+  Catalogos catalogos = Catalogos.empty();
 
   loadCatalogos() async {
     final catalogos = await DBProviderCatalogos.db.getCatalogos();

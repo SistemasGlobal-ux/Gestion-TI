@@ -49,7 +49,7 @@ class _AgregarUsuarioState extends State<AgregarUsuario> {
   @override
   void initState() {
     super.initState();
-    futureCatalogos = fetchCatalogos();
+    //futureCatalogos = fetchCatalogos();
     futureEquipos = fetchEquipos();
     futureMails = fetchMails();
     usuariosPorArea = fetchUsuariosArea();

@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
        ChangeNotifierProvider(create: (_) => EquiposListProvider()),
        ChangeNotifierProvider(create: (_) => CatalogosListProvider()),
        ChangeNotifierProvider(create: (_) => C365Listproviders()),
+       ChangeNotifierProvider(create: (_) => CatalogosEquiposListProvider()),
       ],
       child: MaterialApp(
           title: 'Gestión TI',

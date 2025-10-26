@@ -20,6 +20,7 @@ class _GestionTIHomeState extends State<GestionTIHome> {
     Provider.of<UsuariosListProvider>(context, listen: false).loadusers();
     Provider.of<EquiposListProvider>(context, listen: false).loadEquipos();
     Provider.of<CatalogosListProvider>(context, listen: false).loadCatalogos();
+    Provider.of<CatalogosEquiposListProvider>(context, listen: false).loadCatalogosEqipos();
   }
 
   int selectedIndex = 0;

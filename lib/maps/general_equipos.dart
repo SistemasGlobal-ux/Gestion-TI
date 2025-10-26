@@ -43,4 +43,14 @@ class CatalogosE {
     );
   }
 
+   CatalogosE.empty()
+   :tipos = [],
+   marcas = [],
+   modelos = [],
+   procesadores = [],
+   generaciones = [],
+   discos = [],
+   rams = [],
+   sistemasOperativos = [];
+
 }

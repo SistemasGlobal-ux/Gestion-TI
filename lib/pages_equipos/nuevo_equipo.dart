@@ -1,7 +1,6 @@
 
 import 'package:application_sop/maps/catalogos_combinados.dart';
 import 'package:application_sop/maps/snake_case.dart';
-import 'package:application_sop/services/fetch_data.dart';
 import 'package:application_sop/services/logger.dart';
 import 'package:application_sop/services/push_data.dart';
 import 'package:application_sop/utils/dropdow.dart';
@@ -28,7 +27,7 @@ class _AgregarEquipoState extends State<AgregarEquipo> {
   @override
   void initState() {
     super.initState();
-    futureCatalogos = fetchCatalogosEquipo();
+    //futureCatalogos = fetchCatalogosEquipo();
   }
 
   @override
@@ -229,7 +228,7 @@ dropdownCatalogosE(String label, item, int? selectedId, Function(int?, String?) 
       ],
     );
   },
-);
+   );
   }
 
   void duplicarEquipo(String nuevoSerial, String ns) {
@@ -291,7 +290,9 @@ dropdownCatalogosE(String label, item, int? selectedId, Function(int?, String?) 
                 final columna = catalogosSC[tipo]?["singular"];
                 final dato = await addNewDato(tabla!, columna!, nuevoController.text);
                 if (dato["status"] == "insertado") {
-                setState(() {futureCatalogos = fetchCatalogosEquipo();});
+                setState(() {
+                  //futureCatalogos = fetchCatalogosEquipo();
+                  });
                 // ignore: use_build_context_synchronously
                 Navigator.pop(ctx);
                 }else{

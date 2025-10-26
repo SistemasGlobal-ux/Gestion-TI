@@ -1,7 +1,6 @@
-import 'package:application_sop/maps/catalogos_combinados.dart';
+
 import 'package:application_sop/maps/correos.dart';
 import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/general.dart';
 import 'package:application_sop/maps/tecnicos.dart';
 import 'package:application_sop/maps/usuarios.dart';
 import 'package:application_sop/services/conexiones.dart';
@@ -13,16 +12,12 @@ Future<Map<String, List<Usuario>>?>? fetchUsuariosArea() async {
   return Future.value(data["ACTIVOS"]);
 }
 
-Future<Catalogos> fetchCatalogos() async {
-  final data = await conexion.getGeneral();
-  return data;
-}
 
-Future<CatalogosCombinados> fetchCatalogosEquipo() async {
-  final c1 = await conexion.getGeneral();
-  final c2 = await conexion.getGeneralEquipo();
-  return CatalogosCombinados(catalogos: c1, catalogosE: c2);
-}
+//Future<CatalogosCombinados> fetchCatalogosEquipo() async {
+  //final c1 = await conexion.getGeneral();
+  //final c2 = await conexion.getGeneralEquipo();
+  //return CatalogosCombinados(catalogos: [], catalogosE: c2);
+//}
 
 Future<List<Equipo>> fetchEquipos() async {
   final equipos = await conexion.getInfoEquipos();

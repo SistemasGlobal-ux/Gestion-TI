@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:application_sop/maps/correos.dart';
 import 'package:application_sop/maps/equipos.dart';
-import 'package:application_sop/maps/general.dart';
-import 'package:application_sop/maps/general_equipos.dart';
 import 'package:application_sop/maps/soportes.dart';
 import 'package:application_sop/maps/tecnicos.dart';
 import 'package:application_sop/maps/usuarios.dart';
@@ -106,26 +104,6 @@ class Conexion {
     if (response.statusCode == 200) {
     } else {
       throw Exception("Error al enviar los datos");
-    }
-  }
-
-  Future getGeneral() async {
-    final response = await http.get(myUrls("GENERAL"));
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      return Catalogos.fromJson(jsonData);
-    } else {
-      throw Exception('Error al cargar los catálogos');
-    }
-  }
-
-  Future getGeneralEquipo() async {
-    final response = await http.get(myUrls("GENERALE"));
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      return CatalogosE.fromJson(jsonData);
-    } else {
-      throw Exception('Error al cargar los catálogos');
     }
   }
 
