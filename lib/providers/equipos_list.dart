@@ -13,13 +13,26 @@ class EquiposListProvider extends ChangeNotifier{
    List<Equipo> otros = [];
    List<Equipo> todosLosEquipos = [];
 
-  Future<Equipo> newEquipo(idUser, numeroSerie, nas, fechaEntrega, hojaEntrega, notas, discoPrincipal, discoSecundario, estado, generacion, marca, modelo, operativa, procesador, ram, recepcion, sede, sistemaOperativo, tipo) async {
-   Equipo newMov = Equipo(id: null, idUser: idUser, numeroSerie: numeroSerie, nas: nas, fechaEntrega: fechaEntrega, hojaEntrega: hojaEntrega, notas: notas, baja: "", detalleBaja: "", discoPrincipal: discoPrincipal, discoSecundario: discoSecundario, estado: estado, generacion: generacion, marca: marca, modelo: modelo, operativa: operativa, procesador: procesador, ram: ram, recepcion: recepcion, sede: sede, sistemaOperativo: sistemaOperativo, tipo: tipo);
-   final id = await DBProviderEquipos.db.addEquipo(newMov);
-   newMov = Equipo(id: id, idUser: idUser, numeroSerie: numeroSerie, nas: nas, fechaEntrega: fechaEntrega, hojaEntrega: hojaEntrega, notas: notas, baja: "", detalleBaja: "", discoPrincipal: discoPrincipal, discoSecundario: discoSecundario, estado: estado, generacion: generacion, marca: marca, modelo: modelo, operativa: operativa, procesador: procesador, ram: ram, recepcion: recepcion, sede: sede, sistemaOperativo: sistemaOperativo, tipo: tipo);
-   estock.add(newMov);
+  Future newEquipo(int recepcion,int operativa,int sede,int tipo,String numeroSerie,int marca,int modelo,int procesador,int generacion,int discoPrincipal,int discoSecundario,int ram,int sistemaOperativo) async {
+    final body = {
+    "recepcion": "$recepcion",
+    "operativa": "$operativa",
+    "sede": "$sede",
+    "tipo": "$tipo",
+    "numeroSerie": numeroSerie,
+    "marca": "$marca", 
+    "modelo": "$modelo",
+    "procesador": "$procesador",
+    "generacion": "$generacion",
+    "discoPrincipal": "$discoPrincipal", 
+    "discoSecundario": "$discoSecundario",
+    "ram": "$ram",
+    "sistemaOperativo": "$sistemaOperativo"};
+
+   final equipo = await DBProviderEquipos.db.addEquipo(body);
+   
+   estock.add(Equipo.fromJson(equipo));
    notifyListeners();
-   return newMov;
   }
 
   loadEquipos() async {

@@ -3,6 +3,7 @@
 import 'package:application_sop/busqueda_delegates/custom_search_equipo.dart';
 import 'package:application_sop/cargas/generar_archivos.dart';
 import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/modelos%20pdfs/recepcion_equipo.dart';
 import 'package:application_sop/providers/providers.dart';
 import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -649,7 +650,10 @@ rangoDeFechas(DateTimeRange dateRange){
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                           Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
-                          IconButton(onPressed: (){}, icon: Icon(Icons.delete), color: Colors. redAccent)]),
+                          IconButton(onPressed: () async {
+                            await Provider.of<EquiposListProvider>(context, listen: false).deleteEquipoUser(equipo.numeroSerie);
+                            pdfRecepccionEquipo(user, equipo, context);
+                          }, icon: Icon(Icons.delete), color: Colors. redAccent)]),
                           subtitle: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,

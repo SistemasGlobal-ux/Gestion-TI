@@ -50,13 +50,14 @@ class _Add_equiposState extends State<Add_equipos> {
                         children: [
                           customcard(Text("Especificaciones técnicas")),
                           Divider(height: 25),
-                          listEquipo("Marca", catalogosE.marcas, idMarca),
-                          listEquipo("Modelo", catalogosE.modelos, idModelo),
-                          listEquipo("Procesador", catalogosE.procesadores, idProcesador),
-                          listEquipo("Memoria RAM", catalogosE.rams, idRam),
-                          listEquipo("Disco principal", catalogosE.discos, idDiscop),
-                          listEquipo("Disco secundario", catalogosE.discos, idDiscos),
-                          listEquipo("Sistema operqativo", catalogosE.sistemasOperativos, idSo),
+                          listEquipo("Marca", catalogosE.marcas, idMarca, (value) => setState(() => idMarca = value),),
+                          listEquipo("Modelo", catalogosE.modelos, idModelo, (value) => setState(() => idModelo = value),),
+                          listEquipo("Procesador", catalogosE.procesadores, idProcesador, (value) => setState(() => idProcesador = value),),
+                          listEquipo("Generacion", catalogosE.generaciones, idGen, (value) => setState(() => idGen = value),),
+                          listEquipo("Memoria RAM", catalogosE.rams, idRam, (value) => setState(() => idRam = value),),
+                          listEquipo("Disco principal", catalogosE.discos, idDiscop, (value) => setState(() => idDiscop = value),),
+                          listEquipo("Disco secundario", catalogosE.discos, idDiscos, (value) => setState(() => idDiscos = value),),
+                          listEquipo("Sistema operqativo", catalogosE.sistemasOperativos, idSo, (value) => setState(() => idSo = value),),
                           TextField( controller: serialController,
                           decoration: InputDecoration(labelText: "Número de serie"),
                         ),
@@ -76,12 +77,17 @@ class _Add_equiposState extends State<Add_equipos> {
                         children: [
                           customcard(Text("Información general")),
                           Divider(height: 25),
-                          listGeneral("Operativa", catalogos.operativas, idOperativa),
-                          listGeneral("Sede", catalogos.sedes, idSede),
-                          listEquipo("Tipo", catalogosE.tipos, idTipo),
+                          listGeneral("Operativa", catalogos.operativas, idOperativa, (value) => setState(() => idOperativa = value)),
+                          listGeneral("Sede", catalogos.sedes, idSede, (value) => setState(() => idSede = value),),
+                          listEquipo("Tipo", catalogosE.tipos, idTipo, (value) => setState(() => idTipo = value),),
                           Container(margin: EdgeInsets.only(top: 10), color:Colors.blue[50], child: 
                           fechaField("Fecha de recepccion", fechaRegistro, (fecha) => setState(() => fechaRegistro = fecha), context)),
-                          customcarg(iconButtonCustom("Guardar y salir", Icons.save_as_sharp, (){})),
+                          customcarg(iconButtonCustom("Guardar y salir", Icons.save_as_sharp, (){
+                            setState(() {
+                              idSede;
+                            });
+                            agregarEquipo(idOperativa!, idSede!, idTipo!, serialController.text, idMarca!, idModelo!, idProcesador!, idGen!, idDiscop!, idDiscos!, idRam!, idSo!);
+                            })),
                           customcarg(iconButtonCustom("Duplicar ultimo", Icons.save_as_sharp, (){})),
                           customcarg(iconButtonCustom("Registrar otro", Icons.save_as_sharp, (){}))
                         ]
@@ -107,75 +113,44 @@ class _Add_equiposState extends State<Add_equipos> {
         child: widget));
     }
 
-    listGeneral(String label, List<CatalogoItem> item, int? selectedId){
-      return Container(
-        margin: EdgeInsets.only(top: 10, bottom: 10),
-        child: DropdownCatalogo(
-          label: label,
-          items: item,
-          selectedId: selectedId,
-          onChanged: (value) => setState(() => selectedId = value),
-          ),
-      ); 
-    }
+   Widget listGeneral(
+    String label,
+    List<CatalogoItem> items,
+    int? selectedId,
+  ValueChanged<int?> onChanged,
+  ) {
+  return Container(
+    margin: const EdgeInsets.only(top: 10, bottom: 10),
+    child: DropdownCatalogo(
+      label: label,
+      items: items,
+      selectedId: selectedId,
+      onChanged: onChanged, // delega el cambio
+    ),
+  );
+}
 
-   listEquipo(String label, List<CatalogosEquipo> item, int? selectedId){
+
+   listEquipo(String label, List<CatalogosEquipo> item, int? selectedid, ValueChanged<int?> onChanged,){
     return Container(
       margin: EdgeInsets.only(top: 10, bottom: 10),
       child: DropdownCatalogoE(label: label,
         items: item,
-        selectedId: selectedId,
-        onChanged: (value) => setState(() => selectedId = value),
+        selectedId: selectedid,
+        onChanged: onChanged
       ),
     );
    }
 
-   void agregarEquipo() async {
-    if (serialController.text.isEmpty) return;
-    final fecha = myDate(fechaRegistro!);
-    // Llamar servicio para guardar en la BD
-    // TODO: modificar: final idFecha = await addNewDato("recepciones", "recepcion", fecha);
-    final idFecha = {};
-    if(idFecha["status"] != "error"){
-    final newEquipo = {
-      "textOperativa": textOperativa,
-      "textSede": textSede,
-      "textTipo": textTipo,
-      "textMarca": textMarca,
-      "textModelo": textModelo,
-      "textProcesador": textProcesador,
-      "textGen": textGen,
-      "textDiscop": textDiscop,
-      "textDiscos": textDiscos,
-      "textRam": textRam,
-      "textSo": textSo,
-      "id_recepcion": idFecha["id"],
-      "id_operativa": idOperativa,
-      "id_sede": idSede,
-      "id_tipo": idTipo,
-      "numero_serie": serialController.text,
-      "id_marca": idMarca,
-      "id_modelo": idModelo,
-      "id_procesador": idProcesador,
-      "id_generacion": idGen,
-      "id_disco_principal": idDiscop,
-      "id_disco_secundario": idDiscos,
-      "id_ram": idRam,
-      "id_sistema_operativo": idSo,
-      "id_estado": 2, //(siempre sera 2 de "STOCK")
-      "id_user": "STOCK", 
-      "nas": "~", 
-      "fecha_entrega": "~", 
-      "hoja_entrega": "~", 
-      "notas": "~", 
-     "baja": "~", 
-     "detalle_baja": "~",
-    };
-    equipos.add(newEquipo);
+   void agregarEquipo(int operativa,int sede,int tipo, String numeroSerie,int marca,int modelo,int procesador,int generacion,int discoPrincipal,int discoSecundario,int ram,int sistemaOperativo) async {
+    if (serialController.text.isEmpty){
+      LoggerService.write("error al registrar equipo en base");
+    }else{
+    await Provider.of<EquiposListProvider>(context, listen: false).newEquipo(1, operativa, sede, tipo, numeroSerie, marca, modelo, procesador, generacion, discoPrincipal, discoSecundario, ram, sistemaOperativo);
     setState(() {serialController.clear();});
-  }else{
-    LoggerService.write("${idFecha["status"]} - ${idFecha["mensaje"]} ");
-  }
+
+    }
+    
   }
 
   duplicar(String ns){

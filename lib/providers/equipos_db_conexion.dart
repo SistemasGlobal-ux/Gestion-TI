@@ -51,14 +51,14 @@ class DBProviderEquipos {
 
   }
 
-  Future addEquipo(Equipo newEquipo) async {
-    var response = await http.post(myUrls("ADDEQUIPO"), headers: {"Content-Type": "application/json"}, body: jsonEncode(newEquipo));
+  Future addEquipo(bodyEquipo) async {
+    var response = await http.post(myUrls("ADDEQUIPO"), headers: {"Content-Type": "application/json"}, body: jsonEncode(bodyEquipo));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> respuesta = jsonDecode(response.body);
       
      if(respuesta["status"] == true) {
-      return respuesta["id_equipo"];}
+      return respuesta["equipo"];}
       else{
         LoggerService.write("${respuesta["status"]}: ${respuesta["message"]}");
       }

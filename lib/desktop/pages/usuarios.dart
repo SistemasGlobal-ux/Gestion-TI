@@ -90,7 +90,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
               tecnico.rol == "admin" || tecnico.rol == "tecnico" ? 
               Expanded(
                 flex: 1,
-                child: iconButtonCustom("Nuevo usuario",  Icons.person, (){
+                child: iconButtonCustom("Nuevo usuario", Icons.person, (){
                   Navigator.push(context,MaterialPageRoute(builder: (_) => Add_usuario()));
                 })) : Container()
             ],
