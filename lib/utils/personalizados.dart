@@ -2,6 +2,7 @@
 
 import 'package:application_sop/busqueda_delegates/custom_search_equipo.dart';
 import 'package:application_sop/cargas/generar_archivos.dart';
+import 'package:application_sop/desktop/pages/edit_user.dart';
 import 'package:application_sop/maps/maps.dart';
 import 'package:application_sop/modelos%20pdfs/recepcion_equipo.dart';
 import 'package:application_sop/providers/providers.dart';
@@ -622,14 +623,18 @@ rangoDeFechas(DateTimeRange dateRange){
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(mainAxisAlignment: MainAxisAlignment.end,
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Icon(Icons.person),
                     Text(user.sede,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                    iconButtonSingle("Editar usuario", Icons.settings, Colors.lightGreen, (){editUsuario(context, user);})
                   ],
                 ),
+                CopiText(label: "Area", value: user.area),
                 CopiText(label: "Usuario", value: "${user.nombres} ${user.apellidos}", showIconAndAnimation: true),
                 CopiText(label: "Correo", value: user.correo!, showIconAndAnimation: true),
                 CopiText(label: "Contraseña", value: user.psw!, showIconAndAnimation: true),
+                CopiText(label: "Fecha de ingreso", value: user.ingreso),
                 const SizedBox(height: 15),
                 Text(text),
                 SizedBox(
@@ -650,10 +655,18 @@ rangoDeFechas(DateTimeRange dateRange){
                           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                           Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
-                          IconButton(onPressed: () async {
+                          Row(
+                            children: [
+                          iconButtonSingle("Eliminar equipo de usaurio", Icons.delete,Colors.redAccent, () async {
                             await Provider.of<EquiposListProvider>(context, listen: false).deleteEquipoUser(equipo.numeroSerie);
                             pdfRecepccionEquipo(user, equipo, context);
-                          }, icon: Icon(Icons.delete), color: Colors. redAccent)]),
+                             Navigator.pop(context);
+                          } ),
+                          SizedBox(width: 10),
+                          iconButtonSingle("Editar equipo", Icons.edit, Colors.blueGrey, (){})
+                            ],
+                          ),
+                          ]),
                           subtitle: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,22 +674,10 @@ rangoDeFechas(DateTimeRange dateRange){
                             CopiText(label: "Equipo", value: "${equipo.marca} ${equipo.modelo}", showIconAndAnimation: true),
                             CopiText(label: "NS", value: "${equipo.numeroSerie}", showIconAndAnimation: true),
                             CopiText(label: "NAS", value: equipo.nas!),
-                          Text(
-                            'Disco P: ${equipo.discoPrincipal}',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)
-                          ),
-                          Text(
-                            'Disco S: ${equipo.discoSecundario}',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
-                          Text(
-                            'RAM: ${equipo.ram}',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
-                          Text(
-                            'Procesador: ${equipo.procesador} ${equipo.generacion}',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
+                            CopiText(label: "D. principal", value: equipo.discoPrincipal!),
+                            CopiText(label: "D. secundario", value: equipo.discoSecundario!),
+                            CopiText(label: "Memoria RAM", value: equipo.ram!),
+                            CopiText(label: "Procesador", value: "${equipo.procesador} ${equipo.generacion}"),
                             ],
                           )
                         ),
@@ -718,7 +719,6 @@ rangoDeFechas(DateTimeRange dateRange){
     },
   );
 }
-
 
  void showInfoEquipo(BuildContext context, Equipo equipo) {
   

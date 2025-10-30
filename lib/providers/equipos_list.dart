@@ -69,8 +69,9 @@ for (var lista in [
     final status = await DBProviderEquipos.db.bajaEquipoUser(ns);
     if (status == true) {
      final index = eEntregados.indexWhere((u) => u.numeroSerie == ns);
-    if (index == -1){LoggerService.write("deleteEquipoByID: No encontrado");}
-
+    if (index == -1){
+    LoggerService.write("deleteEquipoByID: No encontrado");
+    }
     Equipo equipoUpdate = eEntregados[index];
     equipoUpdate.idUser = "STOCK";
     equipoUpdate.nas = "~";

@@ -87,9 +87,7 @@ class BusquedaEquipoDelegate extends SearchDelegate<Equipo> {
               ),
               title: Text(filtro[i].numeroSerie!),
               subtitle: Text(filtro[i].estado!),
-              //TODO: agregar opccion de ver card o seleccioanr equipo para asignar// checar log, no se registro usurio en equipo
-              onTap:() => //Navigator.push(context, MaterialPageRoute(builder:(_) => EquipoDetalle(equipo: filtro[i])))
-                close(context, filtro[i])
+              onTap:() => close(context, filtro[i])
             ),
           ),
     );

@@ -2,7 +2,7 @@
 import 'package:application_sop/maps/usuarios.dart';
 import 'package:flutter/material.dart';
 
-void mostrarEditarUsuario(BuildContext context, Usuario usuario) {
+void editUsuario(BuildContext context, Usuario usuario) {
 
   final TextEditingController puestoCtrl = TextEditingController(text: usuario.puesto);
   final TextEditingController contactoCtrl = TextEditingController(text: usuario.contacto);

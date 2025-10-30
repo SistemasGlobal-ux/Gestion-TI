@@ -2,6 +2,7 @@
 
 import 'package:application_sop/cargas/generar_archivos.dart';
 import 'package:application_sop/desktop/pages/add_usuario.dart';
+import 'package:application_sop/desktop/pages/edit_user.dart';
 import 'package:application_sop/maps/maps.dart';
 import 'package:application_sop/modelos%20pdfs/modelos_pdf.dart';
 import 'package:application_sop/providers/providers.dart';
@@ -113,9 +114,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                         elevation: 3,
                         margin: const EdgeInsets.symmetric(vertical: 9),
                         child: ListTile(
-                          onTap: (){
-                            showInfoUser(context, user);
-                          },
+                          onTap: (){showInfoUser(context, user);},
                           leading: CircleAvatar(backgroundColor: myColor(user.area), child: Icon(Icons.person, color: Colors.white, size: 30)),
                           title: Text(user.nombres,style: const TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: 
@@ -151,6 +150,7 @@ rowIcons(rol, user, context){
   Row(
     mainAxisSize: MainAxisSize.min,
     children: [
+      iconButtonSingle("Editar usuario", Icons.settings, Colors.lightGreen, (){editUsuario(context, user);}),
       iconButtonSingle("PDF Equipo", Icons.picture_as_pdf, Colors.lightBlue, (){
         if(user.equipos!.length > 1){
           showListEquipos(context, user.equipos,(i){

@@ -56,7 +56,7 @@ class _CopiTextState extends State<CopiText> {
 
     if (!widget.showIconAndAnimation) {
       return InkWell(
-        onTap: _copiar,
+        onTap: widget.showIconAndAnimation == false ? null :  _copiar,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -67,7 +67,7 @@ class _CopiTextState extends State<CopiText> {
     }
 
     return InkWell(
-      onTap: _copiar,
+      onTap: widget.showIconAndAnimation == false ? null : _copiar,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
