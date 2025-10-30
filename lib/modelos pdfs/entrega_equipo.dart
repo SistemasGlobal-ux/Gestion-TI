@@ -5,7 +5,7 @@ import 'package:application_sop/modelos%20pdfs/modelo_1.dart';
 Future pdfEntregaEquipo(Usuario usuario, Equipo equipo, context) async {
   pdfEquipo(
     "ACTA DE ENTREGA DE EQUIPO DE CÓMPUTO",
-    "EQUIPO NUEVO PARA PERSONALIZAR",
+    "EQUIPO PARA PERSONALIZAR",
     """
 
 Certifico que los elementos detallados en el presente documento me han sido entregados para mi cuidado y 

@@ -47,27 +47,31 @@ Future pdfEquipo(
   celdaDato(row2, 0, "Nombre", 8);
   row2.cells[1].columnSpan = 5;
   celdaValor(row2, 1, "${usuario.nombres} ${usuario.apellidos}");
-  celdaDato(row2, 6, "Puesto", 8);
+  celdaDato(row2, 6, "Area", 8);
   row2.cells[7].columnSpan = 2;
-  celdaValor(row2, 7, usuario.puesto);
-  celdaDato(row2, 9, "Folio", 8);
+  celdaValor(row2, 7, usuario.area);
+  celdaDato(row2, 9, "Sede", 8);
   row2.cells[10].columnSpan = 2;
-  celdaValor(row2, 10, " ");
+  celdaValor(row2, 10, usuario.sede);
   //FILA 2 COLABORADOR
   PdfGridRow row3 = grid.rows.add();
   celdaDato(row3, 0, "Correo", 8);
   row3.cells[1].columnSpan = 5;
   celdaValor(row3, 1, usuario.correo ?? "");
-  celdaDato(row3, 6, "Area", 8);
+  celdaDato(row3, 6, "Puesto", 8);
   row3.cells[7].columnSpan = 2;
-  celdaValor(row3, 7, usuario.area);
-  celdaDato(row3, 9, "Sede", 8);
+  celdaValor(row3, 7, usuario.puesto);
+  celdaDato(row3, 9, "ID", 8);
   row3.cells[10].columnSpan = 2;
-  celdaValor(row3, 10, usuario.sede);
+  celdaValor(row3, 10, "${usuario.id}");
 
   //ESPACIO VACIO SALTO DE LINEA
   PdfGridRow row4 = grid.rows.add();
   saltoDeCelda(row4, 12);
+
+  PdfGridRow titulo2 = grid.rows.add();
+  titulo2.cells[0].columnSpan = 12;
+  celdaDato(titulo2, 0, datoObservaciones, 10);
 
   //HARDWARE
   PdfGridRow row5 = grid.rows.add();
@@ -76,81 +80,51 @@ Future pdfEquipo(
   //FILA 1 HARDWARE TITULOS
   PdfGridRow row6 = grid.rows.add();
   row6.cells[0].columnSpan = 2;
-  celdaDato(row6, 0, "NAS", 8);
-  row6.cells[2].columnSpan = 2;
-  celdaDato(row6, 2, "USUARIO", 8);
-  row6.cells[4].columnSpan = 2;
-  celdaDato(row6, 4, "TIPO", 8);
-  row6.cells[6].columnSpan = 3;
-  celdaDato(row6, 6, "MARCA / MODELO", 8);
-  row6.cells[9].columnSpan = 3;
-  celdaDato(row6, 9, "NUMERO DE SERIE", 8);
+  celdaDato(row6, 0, "TIPO", 8);
+  row6.cells[2].columnSpan = 3;
+  celdaDato(row6, 2, "MARCA / MODELO", 8);
+  row6.cells[5].columnSpan = 3;
+  celdaDato(row6, 5, "PROCESADOR", 8);
+  row6.cells[8].columnSpan = 2;
+  celdaDato(row6, 8, "RAM", 8);
+  row6.cells[10].columnSpan = 2;
+  celdaDato(row6, 10, "D. PRINCIPAL", 8);
   //FILA 1 HARDWARE VALORES
   PdfGridRow row7 = grid.rows.add();
   row7.cells[0].columnSpan = 2;
-  celdaValor(row7, 0, equipo.nas!);
-  row7.cells[2].columnSpan = 2;
-  celdaValor(row7, 2, usuario.area);
-  row7.cells[4].columnSpan = 2;
-  celdaValor(row7, 4, equipo.tipo!);
-  row7.cells[6].columnSpan = 3;
-  celdaValor(row7, 6, "${equipo.marca!} / ${equipo.modelo!}");
-  row7.cells[9].columnSpan = 3;
-  celdaValor(row7, 9, equipo.numeroSerie!);
+  celdaValor(row7, 0, equipo.tipo!);
+  row7.cells[2].columnSpan = 3;
+  celdaValor(row7, 2, "${equipo.marca!} / ${equipo.modelo!}");
+  row7.cells[5].columnSpan = 3;
+  celdaValor(row7, 5, "${equipo.procesador} ${equipo.generacion}");
+  row7.cells[8].columnSpan = 2;
+  celdaValor(row7, 8, equipo.ram!);
+  row7.cells[10].columnSpan = 2;
+  celdaValor(row7, 10, equipo.discoPrincipal!);
   //FILA 2 HARDWARE TITULOS
   PdfGridRow row8 = grid.rows.add();
   row8.cells[0].columnSpan = 2;
-  celdaDato(row8, 0, "PROCESADOR", 8);
-  row8.cells[2].columnSpan = 2;
-  celdaDato(row8, 2, "RAM", 8);
-  row8.cells[4].columnSpan = 2;
-  celdaDato(row8, 4, "ALMACENAMIENTO", 8);
-  row8.cells[6].columnSpan = 3;
-  celdaDato(row8, 6, "MONITOR", 8);
-  row8.cells[9].columnSpan = 3;
-  celdaDato(row8, 9, "TECLADO", 8);
+  celdaDato(row8, 0, "D. SECUNDARIO", 8);
+  row8.cells[2].columnSpan = 3;
+  celdaDato(row8, 2, "NUMERO DE SERIE", 8);
+  row8.cells[5].columnSpan = 3;
+  celdaDato(row8, 5, "USUARIO", 8);
+  row8.cells[8].columnSpan = 2;
+  celdaDato(row8, 8, "NAS", 8);
+  row8.cells[10].columnSpan = 2;
+  celdaDato(row8, 10, "EXTRA", 8);
   //FILA 2 HARDWARE VALORES
   PdfGridRow row9 = grid.rows.add();
   row9.cells[0].columnSpan = 2;
-  celdaValor(row9, 0, "${equipo.procesador!} ${equipo.generacion}");
-  row9.cells[2].columnSpan = 2;
-  celdaValor(row9, 2, equipo.ram!);
-  row9.cells[4].columnSpan = 2;
-  celdaValor(
-    row9,
-    4,
-    equipo.discoSecundario!.isEmpty || equipo.discoSecundario! == "~"
-        ? equipo.discoPrincipal!
-        : "${equipo.discoPrincipal} + ${equipo.discoSecundario!}",
-  );
-  row9.cells[6].columnSpan = 3;
-  celdaValor(row9, 6, "");
-  row9.cells[9].columnSpan = 3;
-  celdaValor(row9, 9, "");
-  //FILA 3 HARDWARE TITULOS
-  PdfGridRow row10 = grid.rows.add();
-  row10.cells[0].columnSpan = 2;
-  celdaDato(row10, 0, "MOUSE", 8);
-  row10.cells[2].columnSpan = 2;
-  celdaDato(row10, 2, "EXT.", 8);
-  row10.cells[4].columnSpan = 2;
-  celdaDato(row10, 4, "IMPRESORA", 8);
-  row10.cells[6].columnSpan = 3;
-  celdaDato(row10, 6, "TELEFONO", 8);
-  row10.cells[9].columnSpan = 3;
-  celdaDato(row10, 9, "CAMARA", 8);
-  //FILA 3 HARDWARE VALORES
-  PdfGridRow row11 = grid.rows.add();
-  row11.cells[0].columnSpan = 2;
-  celdaValor(row11, 0, "");
-  row11.cells[2].columnSpan = 2;
-  celdaValor(row11, 2, "");
-  row11.cells[4].columnSpan = 2;
-  celdaValor(row11, 4, "KYOCERA 308ci");
-  row11.cells[6].columnSpan = 3;
-  celdaValor(row11, 6, "");
-  row11.cells[9].columnSpan = 3;
-  celdaValor(row11, 9, "");
+  celdaValor(row9, 0, equipo.discoSecundario ?? "");
+  row9.cells[2].columnSpan = 3;
+  celdaValor(row9, 2, equipo.numeroSerie!);
+  row9.cells[5].columnSpan = 3;
+  celdaValor(row9,5, usuario.area);
+  row9.cells[8].columnSpan = 2;
+  celdaValor(row9, 8, equipo.nas ?? "");
+  row9.cells[10].columnSpan = 2;
+  celdaValor(row9, 10, " ");
 
   //ESPACIO VACIO SALTO DE LINEA
   PdfGridRow row12 = grid.rows.add();
@@ -264,11 +238,24 @@ Future pdfEquipo(
   //OBSERVACIONES
   PdfGridRow row24 = grid.rows.add();
   row24.cells[0].columnSpan = 12;
-  celdaDato(row24, 0, "OBSERVACIONES", 10);
+  celdaDato(row24, 0, """ESTADO FISICO DEL EQUIPO AL MOMENTO DE ENTREGAR
+  (Marca con una X la opción que corresponda)""", 10);
   //FILA 1 OBSERVACIONES
   PdfGridRow row25 = grid.rows.add();
-  row25.cells[0].columnSpan = 12;
-  celdaDato(row25, 0, datoObservaciones, 8);
+  row25.cells[0].columnSpan = 3;
+  celdaValor(row25, 0, "BUENO");
+  celdaValor(row25, 3, " ");
+  row25.cells[4].columnSpan = 3;
+  celdaValor(row25, 4, "REGULAR");
+  celdaValor(row25, 7, " ");
+  row25.cells[8].columnSpan = 3;
+  celdaValor(row25, 8, "MALO");
+  celdaValor(row25, 11, " ");
+
+  PdfGridRow ddc = grid.rows.add();
+  ddc.cells[0].columnSpan = 12;
+  celdaDato(ddc, 0, "DECLARACION DE CONFORMIDAD", 10);
+   
   //FILA 2 OBSERVACIONEs
   PdfGridRow row26 = grid.rows.add();
   row26.cells[0].columnSpan = 12;
