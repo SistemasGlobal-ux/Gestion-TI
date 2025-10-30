@@ -118,7 +118,7 @@ class Conexion {
       String idEmail = respuesta['id_mail'];
       return idEmail;
     }else{
-      print(respuesta);
+      //print(respuesta);
     }
   }
 

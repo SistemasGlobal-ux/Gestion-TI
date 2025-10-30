@@ -431,7 +431,7 @@ rangoDeFechas(DateTimeRange dateRange){
   showDialog(
     context: context,
     barrierDismissible: true,
-    barrierColor: Colors.black.withOpacity(0.6),
+    barrierColor: Colors.black87,
     builder: (_) {
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

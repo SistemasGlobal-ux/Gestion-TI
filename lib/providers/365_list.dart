@@ -1,4 +1,4 @@
-
+// ignore_for_file: file_names
 
 import 'package:application_sop/maps/mails.dart';
 import 'package:application_sop/providers/365_db_conexion.dart';

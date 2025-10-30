@@ -1,4 +1,6 @@
 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:application_sop/maps/catalogos_combinados.dart';
 import 'package:application_sop/maps/snake_case.dart';
 import 'package:application_sop/services/logger.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:application_sop/maps/maps.dart';
 import 'package:application_sop/providers/providers.dart';
 import 'package:application_sop/services/logger.dart';
@@ -5,7 +7,6 @@ import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// ignore: camel_case_types
 class Add_equipos extends StatefulWidget {
   const Add_equipos({super.key});
 

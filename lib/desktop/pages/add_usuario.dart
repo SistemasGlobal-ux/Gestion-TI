@@ -68,7 +68,7 @@ class _Add_usuarioState extends State<Add_usuario> {
                           Text("Datos del colaborador"),
                         ],
                       ),
-                      CustomImput(placeholder: "Nombres(s)",textControler: namelCtrl ,node: nameNode, nexNode: lastnameNode,),
+                      CustomImput(placeholder: "Nombre(s)",textControler: namelCtrl ,node: nameNode, nexNode: lastnameNode,),
                       CustomImput(placeholder: "Apellidos", textControler: lastNamelCtrl, node: lastnameNode, nexNode: phoneNode,),
                       CustomImput(placeholder: "Contacto",textControler: phoneCtrl, node: phoneNode, nexNode: correoNode,),
                       Row(

@@ -26,7 +26,7 @@ class SocketService {
     } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       await _initDesktop();
     } else {
-      print("Plataforma no soportada para sockets");
+      //print("Plataforma no soportada para sockets");
     }
   }
 
@@ -35,10 +35,10 @@ class SocketService {
       apiKey: '92df15fa44931195761b',
       cluster: 'us2',
       onConnectionStateChange: (currentState, previousState) {
-        print(" Estado conexión: $currentState");
+        //print(" Estado conexión: $currentState");
       },
       onError: (message, code, error) {
-        print(" Error: $error, Code: $code, Msg: $message");
+        //print(" Error: $error, Code: $code, Msg: $message");
       },
     );
 
@@ -49,7 +49,7 @@ class SocketService {
       onEvent: (dynamic data) {
         final event = data as PusherEvent;
         final msg = "Evento: ${event.eventName} -> ${event.data}";
-        print(msg);
+        //print(msg);
         _controller.add(msg);
       },
     );
@@ -63,7 +63,7 @@ class SocketService {
     );
 
     _channel!.stream.listen((event) {
-      print("💻 Evento recibido: $event");
+      //print("💻 Evento recibido: $event");
       _controller.add(event);
     });
 
