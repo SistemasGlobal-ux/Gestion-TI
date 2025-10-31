@@ -556,7 +556,8 @@ rangoDeFechas(DateTimeRange dateRange){
                             'Serie: ${equipo.numeroSerie}',
                             style: const TextStyle(fontSize: 13),
                           ),
-                          trailing: IconButton(onPressed: (){
+                          trailing: IconButton(
+                            onPressed: (){
                             //TODO: Agregar para eliminar equpo de user
                           }, icon: Icon(Icons.delete, color: Colors.redAccent)),
                         ),
@@ -586,8 +587,7 @@ rangoDeFechas(DateTimeRange dateRange){
                     TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text('Salir'),
-                  ),
-                    ]),
+                  )]),
               ],
             ),
           ),
@@ -721,7 +721,6 @@ rangoDeFechas(DateTimeRange dateRange){
 }
 
  void showInfoEquipo(BuildContext context, Equipo equipo) {
-  
   showDialog(
     context: context,
     barrierDismissible: true,

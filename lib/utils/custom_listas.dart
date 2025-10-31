@@ -37,6 +37,47 @@ final Map idSedeMap = {
   "GLOBAL" : 5,
 };
 
+final Map idAreaMap = {
+  "JURIDICO" : 1,
+  "TESORERIA" : 2,
+  "OPERACIONES" : 3,
+  "CONTABILIDAD" : 4,
+  "MATERIALIDAD" : 5,
+  "CORPORATIVO" : 6,
+  "RRHH" : 7,
+  "IMSS" : 8,
+  "SISTEMAS" : 9,
+  "COORDINADOR" : 10,
+  "RECEPCIÓN" : 11,
+  "DOMICILIOS" : 12,
+};
+
+final Map idPuestoMap = {
+  "JURIDICO" : 1,
+  "TESORERIA" : 2,
+  "OPERACIONES" : 3,
+  "CONTABILIDAD" : 4,
+  "MATERIALIDAD" : 5,
+  "CORPORATIVO" : 6,
+  "RRHH" : 7,
+  "IMSS" : 8,
+  "TI" : 9,
+  "COORDINADOR" : 10,
+  "RECEPCIÓN" : 11,
+  "GESTORIA" : 12,
+  "PLANEACION" : 13,
+  "ASISTENCIA LEGAL" : 14,
+  "DIRECCION GENERAL" : 15,
+  "DOMICILIOS" : 16,
+  "PLANEACIÓN" : 17,
+  "COMERCIO" : 18,
+  "DEFENSA" : 19,
+  "FISCAL" : 10,
+  "ASISTENCIA" : 21,
+  "PASANTE" : 22,
+
+};
+
 final Map<int, String> sedeMap = {
   1 : "MARCELO",
   2 : "REFORMA",

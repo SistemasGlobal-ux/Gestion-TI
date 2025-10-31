@@ -51,7 +51,7 @@ class _Add_equiposState extends State<Add_equipos> {
                         children: [
                           customcard(Text("Especificaciones técnicas")),
                           Divider(height: 25),
-                          listEquipo("Marca", catalogosE.marcas, idMarca, (value) => setState(() => idMarca = value),),
+                          listEquipo("Marca", catalogosE.marcas, idMarca, (value) => setState(() => idMarca = value)),
                           listEquipo("Modelo", catalogosE.modelos, idModelo, (value) => setState(() => idModelo = value),),
                           listEquipo("Procesador", catalogosE.procesadores, idProcesador, (value) => setState(() => idProcesador = value),),
                           listEquipo("Generacion", catalogosE.generaciones, idGen, (value) => setState(() => idGen = value),),
@@ -126,7 +126,7 @@ class _Add_equiposState extends State<Add_equipos> {
       label: label,
       items: items,
       selectedId: selectedId,
-      onChanged: onChanged, // delega el cambio
+      onChanged: onChanged, //delega el cambio
     ),
   );
 }
@@ -149,9 +149,7 @@ class _Add_equiposState extends State<Add_equipos> {
     }else{
     await Provider.of<EquiposListProvider>(context, listen: false).newEquipo(1, operativa, sede, tipo, numeroSerie, marca, modelo, procesador, generacion, discoPrincipal, discoSecundario, ram, sistemaOperativo);
     setState(() {serialController.clear();});
-
     }
-    
   }
 
   duplicar(String ns){
@@ -200,7 +198,7 @@ class _Add_equiposState extends State<Add_equipos> {
     // Aquí deberías mandar la lista "equipos" a tu API
     for (var e in equipos) {
       final eBool = false;
-      // TODO: modificar: final eBool = await addEquipo(e);
+      //TODO: modificar: final eBool = await addEquipo(e);
       if (eBool == true) {
       dialogo(context, "Equipo ${e["numero_serie"]} registrado con exito");
       await Future.delayed(Duration(seconds: 1));

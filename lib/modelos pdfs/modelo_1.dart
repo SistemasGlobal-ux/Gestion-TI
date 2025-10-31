@@ -315,9 +315,12 @@ Future pdfEquipo(
   bytes = await document.save();
   document.dispose();
 
+  final formatTextName = "${usuario.area}_${usuario.nombres}_${equipo.numeroSerie}".replaceAll('\r\n', "").replaceAll('\n', "");
+  //final formatTextName = "${usuario.area}_${equipo.numeroSerie}";
+
   saveFile(
     bytes,
-    "${usuario.area}_${usuario.nombres}_${equipo.numeroSerie}",
+    formatTextName,
     documento,
     context,
     "pdf",
