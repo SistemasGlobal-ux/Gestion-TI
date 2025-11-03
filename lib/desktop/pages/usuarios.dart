@@ -79,6 +79,17 @@ class _UsuariosPageState extends State<UsuariosPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    suffixIcon: 
+                    _filtro.isNotEmpty ?
+                    IconButton( 
+                      onPressed: (){
+                      setState(() {
+                        _searchController.clear();
+                        _filtro = '';
+                      });
+                    }, 
+                    icon: Icon(Icons.clear_outlined))
+                    : null
                   ),
                   onChanged: (value) {
                     setState(() {

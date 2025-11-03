@@ -32,11 +32,13 @@ class EquipiosPageState extends State<EquiposPage> {
 
     final List<Equipo> equiposFiltrados = allEquipos.where((e) {
       final query = _filtro.toLowerCase();
-      return e.numeroSerie!.toLowerCase().contains(query) ||
-             e.marca!.toLowerCase().contains(query) ||
-             e.modelo!.toLowerCase().contains(query) ||
-             e.nas!.toLowerCase().contains(query);
-    }).toList();
+      return e.numeroSerie!.toLowerCase().contains(query) 
+      || e.marca!.toLowerCase().contains(query) 
+      || e.modelo!.toLowerCase().contains(query) 
+      || e.nas!.toLowerCase().contains(query) 
+      || e.estado!.toLowerCase().contains(query) 
+      || e.sede!.toLowerCase().contains(query);
+      }).toList();
 
     TechSuppor tecnico = Provider.of<TechSupporListProvider>(context, listen: false).tecnico;
 
@@ -76,6 +78,17 @@ class EquipiosPageState extends State<EquiposPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    suffixIcon: 
+                    _filtro.isNotEmpty ?
+                    IconButton( 
+                      onPressed: (){
+                      setState(() {
+                        _searchController.clear();
+                        _filtro = '';
+                      });
+                    }, 
+                    icon: Icon(Icons.clear_outlined))
+                    : null
                   ),
                   onChanged: (value) {
                     setState(() {
