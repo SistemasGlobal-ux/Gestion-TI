@@ -74,7 +74,6 @@ Align(
           backgroundColor: Colors.blueAccent,
         ),
         onPressed: () async {
-          //TODO: Agregar funcion para agregar otro equipo al usuario
                             final lista = await futureEquipos;
                             equipo = await showSearch(
                               // ignore: use_build_context_synchronously
@@ -91,7 +90,6 @@ Align(
       OutlinedButton.icon(
         icon: Icon(Icons.description_outlined),
         label: Text('Responsiva detallada'),
-        //TODO: agregar formulario para responsiva detalalda
         onPressed: () {},
       ),
     ],

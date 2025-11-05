@@ -1,6 +1,10 @@
 
+import 'dart:io';
+
+import 'package:application_sop/android_pages/dashboard_android.dart';
+import 'package:application_sop/android_pages/login_android.dart';
 import 'package:application_sop/desktop/pages/home.dart';
-import 'package:application_sop/pages/login.dart';
+import 'package:application_sop/desktop/pages/login_desktop.dart';
 import 'package:application_sop/providers/tech_support_list.dart';
 import 'package:application_sop/services/share_preferences.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +35,20 @@ class PreLogin extends StatelessWidget {
 
 Future checkLoginState(BuildContext context) async {
   if (Preferences.token.isNotEmpty) {
-    await Provider.of<TechSupporListProvider>(context, listen: false)
-        .loadTecnico(Preferences.token);
+    await Provider.of<TechSupporListProvider>(context, listen: false).loadTecnico(Preferences.token);
     // Ejecutar después del build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => GestionTIHome(),
+          pageBuilder: (_, __, ___) {
+            return 
+            Platform.isWindows?
+               GestionTIHome() : 
+               Platform.isAndroid ? 
+               DashboardAndroid() 
+               : Container(); 
+          },
           transitionDuration: const Duration(milliseconds: 0),
         ),
       );
@@ -48,7 +58,14 @@ Future checkLoginState(BuildContext context) async {
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          pageBuilder: (_, __, ___) => LoginPage(),
+          pageBuilder: (_, __, ___) {
+            return 
+            Platform.isWindows?
+               LoginPageDesktop() : 
+               Platform.isAndroid ? 
+               LoginPageAndroid()
+               : Container();
+          },
           transitionDuration: const Duration(milliseconds: 0),
         ),
       );

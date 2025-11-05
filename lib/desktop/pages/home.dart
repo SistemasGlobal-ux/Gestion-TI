@@ -1,5 +1,5 @@
 
-import 'package:application_sop/desktop/pages/dashboard.dart';
+import 'package:application_sop/desktop/pages/dashboard_desktop.dart';
 import 'package:application_sop/desktop/pages/equipos.dart';
 import 'package:application_sop/desktop/pages/usuarios.dart';
 import 'package:application_sop/maps/maps.dart';
@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GestionTIHome extends StatefulWidget {
+  const GestionTIHome({super.key});
+
   @override
   State<GestionTIHome> createState() => _GestionTIHomeState();
 }
@@ -26,14 +28,14 @@ class _GestionTIHomeState extends State<GestionTIHome> {
   int selectedIndex = 0;
 
   final List<Widget> pages = [
-    DashboardPage(),
+    DashboardDesktop(),
     UsuariosPage(),
     EquiposPage(),
-    Center(child: Text("🧰 Insumos", style: TextStyle(fontSize: 24))),
-    Center(child: Text("🗺️ Archivos", style: TextStyle(fontSize: 24))),
-    Center(child: Text("🧾 Bitácoras", style: TextStyle(fontSize: 24))),
-    Center(child: Text("⚙️ Admin tecnicos", style: TextStyle(fontSize: 24))),
-    Center(child: Text("⚙️ Configuración", style: TextStyle(fontSize: 24))),
+    Center(child: Text("Insumos", style: TextStyle(fontSize: 24))),
+    Center(child: Text("Archivos", style: TextStyle(fontSize: 24))),
+    Center(child: Text("Bitácoras", style: TextStyle(fontSize: 24))),
+    Center(child: Text("Admin tecnicos", style: TextStyle(fontSize: 24))),
+    Center(child: Text("Configuración", style: TextStyle(fontSize: 24))),
   ];
 
   @override

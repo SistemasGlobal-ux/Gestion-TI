@@ -7,14 +7,14 @@ import 'package:application_sop/utils/personalizados.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-   const LoginPage({super.key});
+class LoginPageDesktop extends StatefulWidget {
+   const LoginPageDesktop({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPageDesktop> createState() => _LoginPageDesktopState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageDesktopState extends State<LoginPageDesktop> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;

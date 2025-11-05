@@ -2,8 +2,11 @@
 
 import 'package:application_sop/busqueda_delegates/custom_search_equipo.dart';
 import 'package:application_sop/cargas/generar_archivos.dart';
+import 'package:application_sop/desktop/pages/edit_equipo.dart';
 import 'package:application_sop/desktop/pages/edit_user.dart';
 import 'package:application_sop/maps/maps.dart';
+import 'package:application_sop/modelos%20pdfs/mant_correctivo.dart';
+import 'package:application_sop/modelos%20pdfs/mant_preventivo.dart';
 import 'package:application_sop/modelos%20pdfs/recepcion_equipo.dart';
 import 'package:application_sop/providers/providers.dart';
 import 'package:application_sop/utils/utils.dart';
@@ -148,8 +151,7 @@ Widget customResumenCard(
     child: LayoutBuilder(
       builder: (context, constraints) {
         bool isCompact = constraints.maxWidth < 180; 
-        // 👈 Cambia 180 según el punto donde quieras ocultar texto
-
+        //Cambia 180 según el punto donde quieras ocultar texto
         return Card(
           elevation: 2,
           shape: RoundedRectangleBorder(
@@ -162,7 +164,7 @@ Widget customResumenCard(
               padding: const EdgeInsets.all(12.0),
               child: isCompact
                   ? Center(
-                      // 🔹 Vista compacta (solo íconos)
+                      //Vista compacta (solo íconos)
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -501,11 +503,7 @@ rangoDeFechas(DateTimeRange dateRange){
 
 
  void showEquipos(BuildContext context, Usuario user) {
-  
   String text = user.equipos!.length > 1 ? 'EQUIPOS ASIGNADOS A ${user.nombres}' : 'EQUIPO ASIGNADO A ${user.nombres}';
-  final List<Equipo> equiposStock = Provider.of<EquiposListProvider>(context, listen: false).estock;
-  Equipo? equipo;
-  DateTime hoy = DateTime.now();
 
   showDialog(
     context: context,
@@ -556,34 +554,14 @@ rangoDeFechas(DateTimeRange dateRange){
                             'Serie: ${equipo.numeroSerie}',
                             style: const TextStyle(fontSize: 13),
                           ),
-                          trailing: IconButton(
-                            onPressed: (){
-                            //TODO: Agregar para eliminar equpo de user
-                          }, icon: Icon(Icons.delete, color: Colors.redAccent)),
                         ),
                       );
                     },
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Row(mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                    TextButton(
-                    onPressed: () async {
-                      equipo = await showSearch(
-                      context: context,delegate: BusquedaEquipoDelegate(equiposStock));
-                      if(equipo!.numeroSerie!.isNotEmpty){
-                       final nass = user.equipos!.isNotEmpty ? user.equipos![0].nas :  "pendiente";
-                       final res = await addEquipo(context, text, user, nass, myDate(hoy), equipo!.numeroSerie!);
-                       if (res == true) {
-                       Navigator.pop(context);
-                       }
-                      }else{
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: const Text('Agregar equipo'),
-                  ),
                     TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text('Salir'),
@@ -657,13 +635,13 @@ rangoDeFechas(DateTimeRange dateRange){
                           Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
                           Row(
                             children: [
-                          iconButtonSingle("Eliminar equipo de usaurio", Icons.delete,Colors.redAccent, () async {
+                          iconButtonSingle("Eliminar equipo de usuario", Icons.delete,Colors.redAccent, () async {
                             await Provider.of<EquiposListProvider>(context, listen: false).deleteEquipoUser(equipo.numeroSerie);
                             pdfRecepccionEquipo(user, equipo, context);
                              Navigator.pop(context);
                           } ),
                           SizedBox(width: 10),
-                          iconButtonSingle("Editar equipo", Icons.edit, Colors.blueGrey, (){})
+                          iconButtonSingle("Editar equipo", Icons.edit, Colors.blueGrey, () => editEquipo(context, equipo))
                             ],
                           ),
                           ]),
@@ -719,6 +697,140 @@ rangoDeFechas(DateTimeRange dateRange){
     },
   );
 }
+
+ void showInfoUserAndroid(BuildContext context, Usuario user, TechSuppor tecnico) {
+
+  String text = user.equipos!.length > 1 || user.equipos!.isEmpty ? '${user.equipos!.length} EQUIPOS ASIGNADOS' : '${user.equipos!.length} EQUIPO ASIGNADO';
+  final List<Equipo> equiposStock = Provider.of<EquiposListProvider>(context, listen: false).estock;
+  Equipo? equipo;
+  DateTime hoy = DateTime.now();
+
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierColor: Colors.black45,
+    builder: (_) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: Colors.white,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.5,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(user.sede,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                    iconButtonSingle("Editar usuario", Icons.settings, Colors.lightGreen, (){editUsuario(context, user);})
+                  ],
+                ),
+                CopiText(label: "Area", value: user.area),
+                CopiText(label: "Usuario", value: "${user.nombres} ${user.apellidos}", showIconAndAnimation: true),
+                CopiText(label: "Correo", value: user.correo!, showIconAndAnimation: true),
+                CopiText(label: "Contraseña", value: user.psw!, showIconAndAnimation: true),
+                CopiText(label: "Fecha de ingreso", value: user.ingreso),
+                const SizedBox(height: 10),
+                Text(text),
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: user.equipos!.length,
+                    itemBuilder: (context, index) {
+                      final equipo = user.equipos![index];
+                      return Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          Text(equipo.tipo!,style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                          iconButtonSingle("Eliminar equipo de usuario", Icons.delete,Colors.redAccent, () async {
+                            await Provider.of<EquiposListProvider>(context, listen: false).deleteEquipoUser(equipo.numeroSerie);
+                            pdfRecepccionEquipo(user, equipo, context);
+                             Navigator.pop(context);})
+                          ]),
+                          subtitle: Column(
+                            children: [
+                            CopiText(label: "Equipo", value: "${equipo.marca} ${equipo.modelo}", showIconAndAnimation: true),
+                            CopiText(label: "NS", value: "${equipo.numeroSerie}", showIconAndAnimation: true),
+                            CopiText(label: "NAS", value: equipo.nas!),
+                            CopiText(label: "D. principal", value: equipo.discoPrincipal!),
+                            CopiText(label: "D. secundario", value: equipo.discoSecundario!),
+                            CopiText(label: "Memoria RAM", value: equipo.ram!),
+                            CopiText(label: "Procesador", value: "${equipo.procesador} ${equipo.generacion}"),
+                            rowIcons(tecnico.rol, user, context, index)
+                            ],
+                          )
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                    onPressed: () async {
+                      equipo = await showSearch(
+                      context: context,delegate: BusquedaEquipoDelegate(equiposStock));
+                      if(equipo!.numeroSerie!.isNotEmpty){
+                       final nass = user.equipos!.isNotEmpty ? user.equipos![0].nas : "pendiente";
+                       final res = await addEquipo(context, text, user, nass, myDate(hoy), equipo!.numeroSerie!);
+                       if (res == true) {
+                       Navigator.pop(context);
+                       }
+                      }else{
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text('Asignar equipo'),
+                  ),
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Salir'),
+                  ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+rowIcons(rol, user, context, i){
+  return 
+  rol == "admin" || rol == "tecnico"?
+  Row(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      iconButtonSingle("PDF Equipo", Icons.picture_as_pdf, Colors.lightBlue, (){
+        if(user.equipos!.length > 1){generarPdfIngreso(context, user, "Generando PDF...", i);}else{}
+      }),
+      iconButtonSingle("PDF Preventivo", Icons.build_circle, Colors.green.shade700, (){
+        if(user.equipos!.length > 1){pdfMantPrevEquipo(user, user.equipos[i], context);}else{}
+      }),
+      iconButtonSingle("PDF Correctivo", Icons.home_repair_service_outlined, Colors.orange.shade700, (){
+        if(user.equipos!.length > 1){pdfMantCorretEquipo(user, user.equipos[i], context);}else{}
+      }),
+    ],
+   ) 
+   : Container();
+}
+
 
  void showInfoEquipo(BuildContext context, Equipo equipo) {
   showDialog(

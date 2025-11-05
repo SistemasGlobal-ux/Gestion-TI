@@ -5,14 +5,13 @@ import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+class DashboardDesktop extends StatefulWidget {
+  const DashboardDesktop({super.key});
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<DashboardDesktop> createState() => _DashboardDesktopState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
-  // Datos de ejemplo — reemplaza por datos reales de tu BD
+class _DashboardDesktopState extends State<DashboardDesktop> {
   String value = 'Activos';
   Usuario? usuarioSeleccionado;
   String equipoV = "Stock";
@@ -22,7 +21,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     DateTime hoy = DateTime.now();
     int diaSemana = hoy.weekday;
-      // Calcular lunes y viernes de la misma semana
+    // Calcular lunes y viernes de la misma semana
     DateTime lunes = hoy.subtract(Duration(days: diaSemana - 1));
     DateTime viernes = hoy.add(Duration(days: 5 - diaSemana));
     
@@ -82,15 +81,15 @@ class _DashboardPageState extends State<DashboardPage> {
                   // CARDS RESUMEN
                   Row(
                     children: [
-                      customResumenCard('Usuarios Activos', "${usuariosActivos.length}" , Icons.person, () {}),
+                      customResumenCard('Usuarios Activos', "${usuariosActivos.length}" , Icons.person, null),
                       const SizedBox(width: 12),
-                      customResumenCard('Usuarios Baja',"${usuariosBaja.length}", Icons.person_off, () {}),
+                      customResumenCard('Usuarios Baja',"${usuariosBaja.length}", Icons.person_off_rounded, null),
                       const SizedBox(width: 12),
-                      //customResumenCard('Cuentas 365','pendiente',Icons.account_box_rounded, () {}),
+                      //customResumenCard('Cuentas 365','pendiente',Icons.account_box_rounded, null),
                       //const SizedBox(width: 12),
-                      customResumenCard('Equipos Entregados', "${equiposEnt.length}", Icons.tv_outlined, () {}),
+                      customResumenCard('Equipos Entregados', "${equiposEnt.length}", Icons.check_circle, null),
                       const SizedBox(width: 12),
-                      customResumenCard('Equipos Stock',"${equiposStock.length}", Icons.computer_rounded, () {}),
+                      customResumenCard('Equipos Stock',"${equiposStock.length}", Icons.inventory_2, null),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -114,7 +113,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text('Usuarios', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                                           ],
@@ -154,7 +153,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ],
                                               rows: listaMostrada.map((e) => 
                                                   DataRow(
-                                                  color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {return myColor(e.area);}),
+                                                  //color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {return myColor(e.area);}),
                                                   cells: [
                                                   DataCell(Text(e.area)),
                                                   DataCell(Text(e.nombres)),
@@ -222,7 +221,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               ],
                                               rows: listaMostradaEquipos.map((e) => 
                                                   DataRow(
-                                                  color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {return myColor(e.estado!);}),
+                                                  //color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {return myColor(e.estado!);}),
                                                   cells: [
                                                   DataCell(Text(e.recepcion!)),
                                                   DataCell(Text(e.estado!)),

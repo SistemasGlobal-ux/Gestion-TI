@@ -161,7 +161,7 @@ rowIcons(rol, user, context){
   Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      iconButtonSingle("Editar usuario", Icons.settings, Colors.lightGreen, (){editUsuario(context, user);}),
+      iconButtonSingle("Editar usuario", Icons.settings, Colors.lightGreen, () => editUsuario(context, user)),
       iconButtonSingle("PDF Equipo", Icons.picture_as_pdf, Colors.lightBlue, (){
         if(user.equipos!.length > 1){
           showListEquipos(context, user.equipos,(i){
@@ -198,6 +198,7 @@ rowIcons(rol, user, context){
       }),
     ],
    ) :
+   
    iconButtonSingle("Equipos", Icons.desktop_mac, Colors.greenAccent, (){
     if(user.equipos!.length >= 1){
           showEquipos(context, user);

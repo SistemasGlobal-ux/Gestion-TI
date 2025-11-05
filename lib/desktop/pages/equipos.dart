@@ -1,6 +1,7 @@
 
 import 'package:application_sop/cargas/generar_archivos.dart';
 import 'package:application_sop/desktop/pages/add_equipo.dart';
+import 'package:application_sop/desktop/pages/edit_equipo.dart';
 import 'package:application_sop/maps/maps.dart';
 import 'package:application_sop/providers/providers.dart';
 import 'package:application_sop/utils/utils.dart';
@@ -137,7 +138,7 @@ class EquipiosPageState extends State<EquiposPage> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              rowIcons(tecnico.rol)
+                              rowIcons(tecnico.rol, context, equipo)
                             ],
                           ),
                         ),
@@ -151,13 +152,13 @@ class EquipiosPageState extends State<EquiposPage> {
   }
 }
 
-rowIcons(rol){
+rowIcons(rol, context, equipo){
   return 
   rol == "admin" || rol == "tecnico"?
   Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      iconButtonSingle("Editar equipo", Icons.edit, Colors.blue, (){}),
+      iconButtonSingle("Editar equipo", Icons.edit, Colors.blue, ()=> editEquipo(context, equipo)),
       iconButtonSingle("Asignar equipo", Icons.assignment_add, const Color.fromARGB(255, 81, 156, 75), (){}),
       SizedBox(width: 15),
       iconButtonSingle("Eliminar equipo", Icons.delete, Colors.redAccent, (){}),

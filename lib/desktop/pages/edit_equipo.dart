@@ -1,22 +1,24 @@
 
+
+
 import 'package:application_sop/maps/maps.dart';
-import 'package:application_sop/providers/providers.dart';
+import 'package:application_sop/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/utils.dart';
+import '../../providers/providers.dart';
 
-void editUsuario(BuildContext context, Usuario usuario) {
+void editEquipo(BuildContext context, Equipo equipo) {
 
   final Catalogos catalogos = Provider.of<CatalogosListProvider>(context, listen: false).catalogos;
-  int? sedeID, areaID, puestoID;
+  int? sedeID;
 
-  final TextEditingController ingresoCtrl = TextEditingController(text: usuario.ingreso);
-  final TextEditingController nombreCtrl = TextEditingController(text: usuario.nombres);
-  final TextEditingController apellidoCtrl = TextEditingController(text: usuario.apellidos);
-  final TextEditingController contactoCtrl = TextEditingController(text: usuario.contacto);
-  final TextEditingController mailCtrl = TextEditingController(text: usuario.correo);
-  final TextEditingController notasCtrl = TextEditingController(text: usuario.notas);
+  final TextEditingController marcaCtrl = TextEditingController(text: equipo.marca);
+  final TextEditingController snCtrl = TextEditingController(text: equipo.numeroSerie);
+  final TextEditingController nasCtrl = TextEditingController(text: equipo.nas);
+  final TextEditingController dpCtrl = TextEditingController(text: equipo.discoPrincipal);
+  final TextEditingController dsCtrl = TextEditingController(text: equipo.discoSecundario);
+  final TextEditingController ramCtrl = TextEditingController(text: equipo.ram);
 
   showModalBottomSheet(
     context: context,
@@ -35,45 +37,43 @@ void editUsuario(BuildContext context, Usuario usuario) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Text('Editar usuario',
+                child: Text('Editar equipo',
                     style: Theme.of(context).textTheme.titleLarge),
               ),
               const SizedBox(height: 16),
               // Campos editables
-              listGeneral("Sede", catalogos.sedes, idSedeMap[usuario.sede], (value){ sedeID = value;}),
-              listGeneral("Area", catalogos.areas, idAreaMap[usuario.area], (value){areaID = value;}),
-              listGeneral("Puesto", catalogos.puestos, idPuestoMap[usuario.puesto], (value){puestoID = value;}),
+              listGeneral("Sede", catalogos.sedes, idSedeMap[equipo.sede], (value){sedeID = value;}),
               TextField(
-                controller: ingresoCtrl,
-                decoration: InputDecoration(labelText: 'Fecha de ingreso'),
+                controller: marcaCtrl,
+                decoration: InputDecoration(labelText: 'Marca'),
               ),
               TextField(
-                controller: nombreCtrl,
-                decoration: InputDecoration(labelText: 'Nombre(s)'),
+                controller: snCtrl,
+                decoration: InputDecoration(labelText: 'ns'),
               ),
               TextField(
-                controller: apellidoCtrl,
-                decoration: InputDecoration(labelText: 'Apellidos'),
+                controller: nasCtrl,
+                decoration: InputDecoration(labelText: 'Nas'),
               ),
               TextField(
-                controller: contactoCtrl,
-                decoration: InputDecoration(labelText: 'Contacto'),
+                controller: dpCtrl,
+                decoration: InputDecoration(labelText: 'Disco principal'),
               ),
               TextField(
-                controller: mailCtrl,
-                decoration: InputDecoration(labelText: 'Correo'),
+                controller: dsCtrl,
+                decoration: InputDecoration(labelText: 'Disco secundario'),
               ),
               TextField(
-                controller: notasCtrl,
-                decoration: InputDecoration(labelText: 'Notas'),
+                controller: ramCtrl,
+                decoration: InputDecoration(labelText: 'Ram'),
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  iconButtonCustom("Cancelar", Icons.cancel, ()=> Navigator.pop(context)),
+                  iconButtonCustom("Cancelar", Icons.cancel, () => Navigator.pop(context)),
                   iconButtonCustom("Guardar", Icons.save, (){
-                    //agregar funcion para editar en db usuario
+                    //TODO: agregar editar equipo en db
                     }),
                 ],
               ),
