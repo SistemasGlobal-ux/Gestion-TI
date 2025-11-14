@@ -68,7 +68,7 @@ Future excelUsuarios(List<Usuario> usuarios, String estado, context) async {
 
     final List<int> bytes = libro.saveAsStream();
     libro.dispose();
-    saveFile(bytes, "Excel Usuarios $estado", "INVENTARIO", context, "xlsx");
+    saveFile(bytes, "Usuarios $estado", "INVENTARIO", context, "xlsx");
   } catch (e) {
     LoggerService.write("Error al generar Excel Usuarios: $e");
   }
